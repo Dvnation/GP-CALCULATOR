@@ -267,7 +267,7 @@ export function Table(){
 const [gpData, setgpData] = useState(
     
 { "100 level 1st": "" , "100 level 2nd":"", "200 level 1st": "", "200 level 2nd":"", "300 level 1st":"", "300 level 2nd":"", "400 level 1st":"",
-"400 level 2nd" : ""
+"400 level 2nd" : "", "500 level 1st": "", "500 level 2nd":""
 
 
 },
@@ -278,6 +278,16 @@ const [gpData, setgpData] = useState(
 
 
 const alpRef = useRef(null)
+const alpRef1 = useRef(null)
+const alpRef2= useRef(null)
+const alpRef3 = useRef(null)
+const alpRef4= useRef(null)
+const alpRef5 = useRef(null)
+const alpRef6 =useRef(null)
+const alpRef7 = useRef(null)
+const alpRef8 = useRef(null)
+const alpRef9 = useRef(null)
+
 
 const CourseChanger=(e,id,fields)=>{
 const why = data.map(coursed=>{
@@ -423,22 +433,56 @@ return calm
    
     }
 const previousData = ()=>{
+    let man = "no localStorage"
+
     const ump = 
     data.map(
+
+        
         items=>{
    
             const id = items.id
             const courseUnitStorage = localStorage.getItem("course unit"+ " "+id)
             const parsedCourseUnitStorage = courseUnitStorage ? JSON.parse(courseUnitStorage) : ""
 
-return  {...items , course : localStorage.getItem("course" + id), courseUnit : parsedCourseUnitStorage, "test": localStorage.getItem("test"+ " "+id),
-"exam": localStorage.getItem("exam"+ " "+id), aggregate: localStorage.getItem("aggregate"+ " "+id), grade: localStorage.getItem("grade"+ " "+id)
-}
+         console.log(localStorage.getItem("exam"+ " "+id));   
+            console.log(localStorage.getItem("aggregate"+ " "+id))
+            console.log(localStorage.getItem("test"+ " "+id))
+           console.log( localStorage.getItem("course unit"+ " "+id))
+           
 
-return items
-}
+            if(localStorage.getItem("exam"+ " "+id)  && localStorage.getItem("aggregate"+ " "+id)  && localStorage.getItem("test"+ " "+id) && localStorage.getItem("course unit"+ " "+id) ){
+                // return  {...items , course : localStorage.getItem("course" + id), courseUnit : parsedCourseUnitStorage, "test": localStorage.getItem("test"+ " "+id),
+                // "exam": localStorage.getItem("exam"+ " "+id), aggregate: localStorage.getItem("aggregate"+ " "+id), grade: localStorage.getItem("grade"+ " "+id)
+                // }
+           man = "localStorage"
+                items.aggregate = localStorage.getItem("aggregate"+ " "+id)
+                items.course = localStorage.getItem("course" + id)
+                items.courseUnit = parsedCourseUnitStorage
+                items.grade = localStorage.getItem("grade"+ " "+id)
+                items.exam = localStorage.getItem("exam"+ " "+id)
+                items.test = localStorage.getItem("test"+ " "+id)
+
+                return items
+            }
+            else{
+                return items
+
+            }
+          
+
+                
+                }
+
+
     )
+    if(man == "no localStorage"){
+        alert("You have no previous data, try calculating your gp first")
+
+    }
+
     setData(ump)
+
 }
 
 let summedUp = []
@@ -512,23 +556,86 @@ return alert("click the gp button to first obtain gp")
     }
  console.log(gp);
  
- const make = prompt("what level is this. Reply in this format : 100 or 200 ...")
+ const make = prompt("what level is this. Reply in this format : 100, 200, 300, 400, 500 ...")
 // const make = prompt(<input value = "ss"/>)
- const maker = prompt("what semester. Reply in this format : 1st or 2nd ...")
+ const maker = prompt("what semester. Reply in this format : 1st, 2nd ...")
  
 if(make == "100" && maker == "1st"){
    
    alpRef.current.value = gp
 
 }
+else if(make == "100" && maker == "2nd"){
+alpRef5.current.value = gp
+}
+else if(make == "200" && maker == "1st"){
+alpRef1.current.value = gp
+    }
+
+else if(make == "200" && maker == "2nd"){
+alpRef6.current.value = gp
+}
+else if(make == "300" && maker == "1st"){
+alpRef2.current.value = gp
+}
+else if(make == "300" && maker == "2nd"){
+alpRef7.current.value = gp
+}
+else if(make == "400" && maker == "1st"){
+alpRef3.current.value = gp
+}
+else if(make == "400" && maker == "2nd"){
+alpRef8.current.value = gp
+}
+else if(make == "500" && maker == "1st"){
+alpRef4.current.value = gp
+}
+else if(make == "500" && maker == "2nd"){
+alpRef9.current.value = gp
+}
+    
+
 
 
 }
 
+const del = ()=>{
+    const way = 
+    data.map(
+        calm=>{
+            const id = calm.id
+if(calm.id || calm.aggregate || calm.course || calm.grade || calm.courseUnit|| calm.exam){
+    localStorage.removeItem("exam"+ " "+id)
+    localStorage.removeItem("test"+ " "+id)
+    localStorage.removeItem("aggregate"+ " "+id)
+    localStorage.removeItem("course unit"+ " "+id)
+    localStorage.removeItem("grade"+ " "+id)
+    localStorage.removeItem("course"+id)
 
 
+return {...calm, course:"", test:"", exam:"", courseUnit:"", aggregate:"", grade:""}
+}
+return calm
+        }
+    )
+    setData(way)
+}
 
 
+const test =()=>{
+    data.map(
+        calm=>{
+            
+            if(!localStorage){
+                alert("kk")
+               return calm
+            }
+            return calm
+        }
+    )
+    alert("ffr")
+
+}
 
 
 
@@ -594,30 +701,42 @@ return (
 <td>
     <input type = "text" value={items.grade} onChange={e=>e.target.value}/> 
 </td>
-<button onClick={clear}>CLEAR VALUE</button>
-<button onClick={del}>DELETE</button>
 </tr>
 
-                </>)
+                </>
+                
+                
+                )
+                
 
-                })
+                }
+                
+
+
+                )
                 
                 }
 
         </tbody>
 
-    </table>
+    </table >
+
+
     
-           
-<button style={{marginBottom:"10%", marginRight:"5%"}} onClick={ addItem}> ADD SOME ROWS</button>
-<button style={{marginBottom:"10%",marginRight:"5%"}} onClick={previousData}>GET PREVIOUS DATA</button>
-<button style={{marginBottom:"10%",marginRight:"5%"}} onClick={SUM}>CALMLY HIT TO GET GP!</button>
-
-<div style={{display: "flex", marginBottom:"27px"}}><h3 style={{marginRight: "4%"}}>SAVING YOUR RESULT FOR CUMULATIVE CALCULATION</h3> <button  onClick={SAVE}>SAVE CURRENT GP</button></div>
-
+  <div style={{display:"inline-flex"}}>
+  <button style={{marginInline:"20px"}} onClick={ addItem}> ADD SOME ROWS</button>
+<button style={{marginInline:"20px"}} onClick={previousData}>GET PREVIOUS DATA</button>
+<button style={{marginInline:"20px"}} onClick={SUM}>CALMLY HIT TO GET GP!</button>
+<button onClick={del}>DELETE ALL</button>
 
 
-<table>
+    </div>         
+
+<div style={{display: "flex", marginBottom:"27px", marginTop:"52px"}}><h3 style={{marginRight: "4%"}}>SAVING YOUR RESULT FOR CUMULATIVE CALCULATION</h3> <button  onClick={SAVE}>CLICK TO SAVE YOUR CURRENT GP</button></div>
+
+
+
+<table style={{marginBottom:"50px"}}>
     <thead>
         <tr>
             <th>level </th>
@@ -636,11 +755,11 @@ return (
 
 <tr style={{position: "relative", bottom:"4px"}} >
 <td >1st semester gp</td>
-<td><input placeholder='ypur gp' value= {gpData['100 level 1st']} ref={alpRef} /></td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
+<td><input placeholder='your gp' value= {gpData['100 level 1st']} ref={alpRef} /></td>
+<td><input  placeholder='your gp' value={gpData['200 level 1st']}  ref={alpRef1}/></td>
+<td><input  placeholder='your gp' value={gpData['300 level 1st']}ref={alpRef2}/></td>
+<td><input  placeholder='your gp' value={gpData['400 level 1st']} ref={alpRef3}/></td>
+<td><input  placeholder='your gp' value={gpData['500 level 1st']} ref={alpRef4} /></td>
 
 
  
@@ -651,11 +770,11 @@ return (
 
 <tr style={{position: "relative", bottom:"30px"}} >
 <td>2nd semester gp</td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
-<td><input  placeholder='ypur gp' /></td>
+<td><input  placeholder='your gp'  value={gpData['100 level 2nd']} ref={alpRef5}/></td>
+<td><input  placeholder='your gp' value={gpData['200 level 2nd']} ref={alpRef6}/></td>
+<td><input  placeholder='your gp' value={gpData['300 level 2nd']}ref={alpRef7} /></td>
+<td><input  placeholder='your gp' value={gpData['400 level 2nd']} ref={alpRef8}/></td>
+<td><input  placeholder='your gp' value={gpData["500 level 2nd"]} ref={alpRef9}/></td>
 
 
 
@@ -680,7 +799,8 @@ return (
 
         
     </tbody>
-</table>
+    
+</table >
 
     </>
 )}
